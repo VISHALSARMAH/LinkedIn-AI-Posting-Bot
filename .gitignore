@@ -1,7 +1,8 @@
+.venv/
 venv/
 __pycache__/
 *.pyc
 .env
 .DS_Store
-cookies.json
-logs.json
+data/cookies.json
+data/logs.json
