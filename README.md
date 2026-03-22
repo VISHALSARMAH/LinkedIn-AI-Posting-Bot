@@ -62,40 +62,6 @@ export OPENROUTER_API_KEY="your_api_key"
 python main.py
 ```
 
-## GitHub Actions Automation (Every 2 Days)
-This repository includes a scheduled workflow at [.github/workflows/post-linkedin.yml](.github/workflows/post-linkedin.yml).
-
-It runs every 2 days and can also be started manually from the Actions tab.
-
-### Required GitHub Secrets
-Add these repository secrets before enabling automation:
-- `OPENROUTER_API_KEY`
-- `LINKEDIN_STORAGE_STATE_B64`
-
-### Generate LinkedIn Session File
-Run this once on your local machine:
-
-```bash
-python scripts/create_linkedin_session.py
-```
-
-This creates [data/cookies.json](data/cookies.json) with authenticated Playwright storage state.
-
-### Encode Session for GitHub Secret
-Use one of these commands and copy the output into `LINKEDIN_STORAGE_STATE_B64`:
-
-```bash
-base64 -i data/cookies.json
-```
-
-```bash
-base64 data/cookies.json
-```
-
-### Notes
-- GitHub schedule runs from the repository default branch.
-- The workflow commits updated [data/post_history.json](data/post_history.json) so URL duplicate prevention persists across runs.
-
 ## Important Notes
 - `cookies.json` is not included for security.
 - API keys must be set via environment variables.

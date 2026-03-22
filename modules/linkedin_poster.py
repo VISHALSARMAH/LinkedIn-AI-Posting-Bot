@@ -1,7 +1,4 @@
-import os
-
 from playwright.sync_api import sync_playwright
-from modules.paths import COOKIES_FILE
 
 
 def _click_with_fallback(page, selectors, timeout=15000):
@@ -22,24 +19,12 @@ def post_to_linkedin(post_text):
 	Publish a LinkedIn post using Playwright.
 	"""
 	try:
-		is_ci = os.getenv("GITHUB_ACTIONS", "").lower() == "true" or os.getenv("LINKEDIN_AUTONOMOUS", "").lower() == "true"
-		use_saved_session = os.path.exists(COOKIES_FILE) and os.path.getsize(COOKIES_FILE) > 0
-
 		with sync_playwright() as p:
-			browser = p.chromium.launch(headless=is_ci)
-			context_kwargs = {"storage_state": COOKIES_FILE} if use_saved_session else {}
-			context = browser.new_context(**context_kwargs)
-			page = context.new_page()
+			browser = p.chromium.launch(headless=False)
+			page = browser.new_page()
 			page.goto("https://www.linkedin.com/feed/", wait_until="domcontentloaded")
 
-			if not is_ci:
-				input("Login to LinkedIn and press ENTER...")
-				# Save local authenticated session for future automated runs.
-				try:
-					os.makedirs(os.path.dirname(COOKIES_FILE), exist_ok=True)
-					context.storage_state(path=COOKIES_FILE)
-				except Exception:
-					pass
+			input("Login to LinkedIn and press ENTER...")
 
 			# Start post button with fallback selectors.
 			_click_with_fallback(
@@ -65,8 +50,6 @@ def post_to_linkedin(post_text):
 			page.wait_for_timeout(5000)
 
 			print("Post successfully published")
-			context.close()
-			browser.close()
 			return True
 
 	except Exception as err:
