@@ -1,0 +1,22 @@
+{
+  "topic": "Artificial Intelligence",
+  "debug_save_posts": true,
+  "automation_enabled": true,
+  "article_freshness_hours": 48,
+  "openrouter_api_key": "",
+  "trusted_sources": [
+  "techcrunch.com",
+  "reuters.com",
+  "wired.com",
+  "theverge.com",
+  "arstechnica.com",
+  "venturebeat.com",
+  "bloomberg.com",
+  "forbes.com",
+  "theguardian.com",
+  "nytimes.com",
+  "indianexpress.com",
+  "indiatoday.in",
+  "business-standard.com"
+  ]
+}
